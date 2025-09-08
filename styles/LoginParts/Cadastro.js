@@ -55,7 +55,16 @@ export const styles = StyleSheet.create({
     marginBottom: 2,
   },
 
-  // Logo Container
+  rulesTextValid: {
+    color: colors.green,
+  },
+  rulesTextInvalid: {
+    color: colors.red,
+  },
+  rulesTextNeutral: {
+    color: colors.white, 
+  },
+
   logoContainer: {
     alignItems: 'center',
     marginBottom: 30,
@@ -85,7 +94,6 @@ export const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
 
-  // Form Container
   formContainer: {
     width: 290,
     backgroundColor: '#3A3A3A',
@@ -104,6 +112,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 15,
     position: 'relative',
   },
+
   textInput: {
     fontFamily: font.fontFamily,
     fontSize: fontSize.sm,
@@ -128,6 +137,7 @@ export const styles = StyleSheet.create({
     height: 15,
     tintColor: colors.white,
   },
+  // Estados do botão
   registerButton: {
     width: 250,
     height: 45,
@@ -137,11 +147,28 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
+  registerButtonEnabled: {
+    opacity: 1,
+  },
+  registerButtonDisabled: {
+    opacity: 0.5,
+  },
+  registerButtonLoading: {
+    opacity: 0.7,
+  },
   registerButtonText: {
     fontFamily: font.fontFamily,
     fontWeight: fontWeight.bold,
     fontSize: fontSize.md,
     lineHeight: 20,
     color: colors.white,
+  },
+
+  errorText: {
+    fontFamily: font.fontFamily,
+    fontWeight: fontWeight.regular,
+    fontSize: fontSize.xs,
+    color: colors.red,
+    textAlign: 'center',
   },
 });
