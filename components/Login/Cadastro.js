@@ -22,27 +22,27 @@ export default function Cadastro({ screen }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Validação de email
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  // Validação de senha
   const validatePassword = (password) => {
     const hasMinLength = password.length >= 8;
     const hasMaxLength = password.length <= 32;
     const hasLowerCase = /[a-z]/.test(password);
+    const hasUpperCase = /[A-Z]/.test(password);
     const hasNumber = /\d/.test(password);
     const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
     const hasNoSpaces = !/\s/.test(password);
 
     return {
-      isValid: hasMinLength && hasMaxLength && hasLowerCase && hasNumber && hasSpecialChar && hasNoSpaces,
+      isValid: hasMinLength && hasMaxLength && hasLowerCase && hasUpperCase && hasNumber && hasSpecialChar && hasNoSpaces,
       errors: {
         minLength: !hasMinLength,
         maxLength: !hasMaxLength,
         lowerCase: !hasLowerCase,
+        upperCase: !hasUpperCase,
         number: !hasNumber,
         specialChar: !hasSpecialChar,
         noSpaces: !hasNoSpaces
@@ -50,27 +50,25 @@ export default function Cadastro({ screen }) {
     };
   };
 
-  // Validação de nome/usuário
   const validateName = (name) => {
-    const hasMinLength = name.length >= 6;
-    const hasMaxLength = name.length <= 20;
+    const hasMinLength = name.length >= 3;
+    const hasMaxLength = name.length <= 50;
     const hasNoSpaces = !/\s/.test(name);
     const hasNoAccents = !/[àáâãäåçèéêëìíîïñòóôõöùúûüýÿ]/i.test(name);
-    const hasNoSpecialChars = !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(name);
+    const hasValidChars = /^[a-zA-Z0-9_]+$/.test(name);
 
     return {
-      isValid: hasMinLength && hasMaxLength && hasNoSpaces && hasNoAccents && hasNoSpecialChars,
+      isValid: hasMinLength && hasMaxLength && hasNoSpaces && hasNoAccents && hasValidChars,
       errors: {
         minLength: !hasMinLength,
         maxLength: !hasMaxLength,
         noSpaces: !hasNoSpaces,
         noAccents: !hasNoAccents,
-        noSpecialChars: !hasNoSpecialChars
+        validChars: !hasValidChars
       }
     };
   };
 
-  // Verificar se todos os campos são válidos
   const isFormValid = useMemo(() => {
     const isNameValid = name.length > 0 && validateName(name).isValid;
     const isEmailValid = email.length > 0 && validateEmail(email);
@@ -79,7 +77,6 @@ export default function Cadastro({ screen }) {
     return isNameValid && isEmailValid && isPasswordValid;
   }, [name, email, password]);
 
-  // Validação em tempo real
   const handleNameChange = (text) => {
     setName(text);
     const nameValidation = validateName(text);
@@ -107,27 +104,30 @@ export default function Cadastro({ screen }) {
     }));
   };
 
-  // Função para tratar diferentes tipos de erro da API
   const getErrorMessage = (error) => {
     
-    const errorMessage = error.message || error.response?.data?.message || error.response?.data?.erro || '';
+    const errorMessage = error.message || error.response?.data?.detail || error.response?.data?.message || '';
     const statusCode = error.response?.status;
     
     switch (statusCode) {
       case 409:
-        if (errorMessage.toLowerCase().includes('email')) {
+      case 400:
+        if (errorMessage.toLowerCase().includes('email já cadastrado') || 
+            errorMessage.toLowerCase().includes('email já está em uso')) {
           return 'E-mail já está cadastrado. Tente fazer login ou use outro e-mail.';
         }
-        if (errorMessage.toLowerCase().includes('login') || errorMessage.toLowerCase().includes('usuário')) {
+        if (errorMessage.toLowerCase().includes('login já está em uso') || 
+            errorMessage.toLowerCase().includes('login') || 
+            errorMessage.toLowerCase().includes('usuário')) {
           return 'Nome de usuário já está em uso. Escolha outro nome.';
         }
-        return 'Dados já cadastrados no sistema.';
-      
-      case 400:
-        return 'Dados inválidos. Verifique as informações e tente novamente.';
+        return 'Dados já cadastrados no sistema ou inválidos.';
       
       case 422:
         return 'Dados não puderam ser processados. Verifique os campos obrigatórios.';
+      
+      case 429: // Rate limit
+        return 'Muitas tentativas. Aguarde um momento e tente novamente.';
       
       case 500:
         return 'Erro interno do servidor. Tente novamente em alguns minutos.';
@@ -170,8 +170,19 @@ export default function Cadastro({ screen }) {
 
       const response = await apiService.cadastrarUsuario(dadosUsuario);
 
-      if (response.sucesso) {
-        screen('PAYMENT')
+      if (response.sucesso || response.id) {
+        Alert.alert(
+          'Sucesso!',
+          'Conta criada com sucesso!',
+          [
+            {
+              text: 'OK',
+              // onPress: () => screen('PAYMENT')
+            }
+          ]
+        );
+      } else {
+        throw new Error('Resposta inválida do servidor');
       }
     } catch (error) {
       console.error('Erro ao cadastrar:', error);
@@ -181,7 +192,6 @@ export default function Cadastro({ screen }) {
     }
   };
 
-  // Função para obter o estilo baseado na validação
   const getValidationTextStyle = (isError) => {
     if (isError === undefined) return styles.rulesTextNeutral;
     return isError ? styles.rulesTextInvalid : styles.rulesTextValid;
@@ -207,7 +217,6 @@ export default function Cadastro({ screen }) {
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
     >
-      {/* Regras de usuário e senha */}
       <View style={styles.rulesContainer}>
         <Text style={styles.rulesTitle}>Regras usuário e senha</Text>
 
@@ -219,13 +228,13 @@ export default function Cadastro({ screen }) {
         
         <Text style={styles.rulesSectionTitle}>Usuário:</Text>
         <Text style={[styles.rulesText, getValidationTextStyle(errors.name?.minLength || errors.name?.maxLength)]}>
-          • entre 6 - 20 caracteres
+          • entre 3 - 50 caracteres
         </Text>
         <Text style={[styles.rulesText, getValidationTextStyle(errors.name?.noSpaces || errors.name?.noAccents)]}>
           • sem espaços, sem acentos
         </Text>
-        <Text style={[styles.rulesText, getValidationTextStyle(errors.name?.noSpecialChars)]}>
-          • sem caracteres especiais
+        <Text style={[styles.rulesText, getValidationTextStyle(errors.name?.validChars)]}>
+          • apenas letras, números e underscore
         </Text>
         
         <Text style={styles.rulesSectionTitle}>Senha:</Text>
@@ -234,6 +243,9 @@ export default function Cadastro({ screen }) {
         </Text>
         <Text style={[styles.rulesText, getValidationTextStyle(errors.password?.lowerCase)]}>
           • use letras minúsculas
+        </Text>
+        <Text style={[styles.rulesText, getValidationTextStyle(errors.password?.upperCase)]}>
+          • use letras maiúsculas
         </Text>
         <Text style={[styles.rulesText, getValidationTextStyle(errors.password?.number)]}>
           • use números
@@ -246,7 +258,6 @@ export default function Cadastro({ screen }) {
         </Text>
       </View>
 
-      {/* Logo */}
       <View style={styles.logoContainer}>
         <Image
           source={require('../../assets/Logo.png')}
@@ -262,13 +273,11 @@ export default function Cadastro({ screen }) {
         </Text>
       </View>
 
-      {/* Formulário */}
       <View style={styles.formContainer}>
-        {/* Campo Nome */}
         <View style={[styles.inputContainer, getInputContainerStyle('name', name)]}>
           <TextInput
             style={styles.textInput}
-            placeholder="Nome"
+            placeholder="Nome de usuário"
             placeholderTextColor="#AAAAAA"
             value={name}
             onChangeText={handleNameChange}
@@ -277,7 +286,6 @@ export default function Cadastro({ screen }) {
           />
         </View>
 
-        {/* Campo E-mail */}
         <View style={[styles.inputContainer, getInputContainerStyle('email', email)]}>
           <TextInput
             style={styles.textInput}
@@ -291,7 +299,6 @@ export default function Cadastro({ screen }) {
           />
         </View>
 
-        {/* Campo Senha */}
         <View style={[styles.inputContainer, getInputContainerStyle('password', password)]}>
           <TextInput
             style={[styles.textInput, styles.passwordInput]}
@@ -319,7 +326,6 @@ export default function Cadastro({ screen }) {
           {error}
         </Text>
 
-        {/* Botão Criar minha conta */}
         <TouchableOpacity 
           style={[
             styles.registerButton, 

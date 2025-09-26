@@ -1,13 +1,13 @@
 // Configurações de ambiente
 const config = {
   development: {
-    API_BASE_URL: 'http://localhost:8000', // Para desenvolvimento local
+    API_BASE_URL: 'http://localhost:8000', // Seu backend FastAPI local
   },
   staging: {
-    API_BASE_URL: 'https://your-staging-api.onrender.com', // Para testes
+    API_BASE_URL: 'https://your-staging-api.onrender.com',
   },
   production: {
-    API_BASE_URL: 'https://backbase-api.onrender.com', // SUBSTITUA pela sua URL do Render
+    API_BASE_URL: 'https://backbase-api.onrender.com', // Manter o mesmo
   }
 };
 
@@ -18,7 +18,7 @@ const getEnvironment = () => {
     return 'development';
   }
   
-  // Para produção (você pode adicionar mais lógica aqui se necessário)
+  // Para produção
   return 'production';
 };
 

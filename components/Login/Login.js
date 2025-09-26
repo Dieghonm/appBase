@@ -27,7 +27,7 @@ export default function Login({ screen, navigation }) {
   const getErrorMessage = (error) => {
     console.log('Erro completo:', error);
     
-    const errorMessage = error.message || error.response?.data?.message || error.response?.data?.erro || '';
+    const errorMessage = error.message || error.response?.data?.detail || error.response?.data?.message || '';
     const statusCode = error.response?.status;
     
     // Tratar erros baseados no conteúdo da mensagem
@@ -52,6 +52,9 @@ export default function Login({ screen, navigation }) {
       
       case 400: // Bad Request
         return 'Dados inválidos. Verifique as informações.';
+      
+      case 429: // Rate limit
+        return 'Muitas tentativas. Aguarde um momento e tente novamente.';
       
       case 500: // Internal Server Error
         return 'Erro interno do servidor. Tente novamente em alguns minutos.';
@@ -80,9 +83,12 @@ export default function Login({ screen, navigation }) {
 
       console.log('Resposta do login:', response);
 
-      if (response.sucesso) {
+      // Verificar se o login foi bem-sucedido
+      // Seu backend retorna um objeto com access_token
+      if (response.access_token) {
         // Salvar dados do usuário localmente se necessário
-        // AsyncStorage.setItem('userData', JSON.stringify(response));
+        // AsyncStorage.setItem('token', response.access_token);
+        // AsyncStorage.setItem('userData', JSON.stringify(response.user));
         
         Alert.alert(
           'Sucesso!',
@@ -95,12 +101,15 @@ export default function Login({ screen, navigation }) {
                 if (navigation) {
                   navigation.navigate('Home');
                 } else {
-                  console.log('Navegação não disponível, usuário logado:', response);
+                  console.log('Navegação não disponível, usuário logado:', response.user);
                 }
               }
             }
           ]
         );
+      } else {
+        // Se não houver token, algo deu errado
+        throw new Error('Resposta inválida do servidor');
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error);
