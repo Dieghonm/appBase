@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -16,19 +16,63 @@ export default function Login({ screen, navigation }) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  // Verificar se os campos obrigatórios estão preenchidos
+  const isFormValid = useMemo(() => {
+    return email.trim().length > 0 && password.trim().length > 0;
+  }, [email, password]);
+
+  // Função para tratar diferentes tipos de erro da API
+  const getErrorMessage = (error) => {
+    console.log('Erro completo:', error);
+    
+    const errorMessage = error.message || error.response?.data?.message || error.response?.data?.erro || '';
+    const statusCode = error.response?.status;
+    
+    // Tratar erros baseados no conteúdo da mensagem
+    if (errorMessage.toLowerCase().includes('usuário não encontrado') || 
+        errorMessage.toLowerCase().includes('user not found')) {
+      return 'E-mail ou login não encontrado.';
+    }
+    
+    if (errorMessage.toLowerCase().includes('senha incorreta') || 
+        errorMessage.toLowerCase().includes('password incorrect') ||
+        errorMessage.toLowerCase().includes('invalid password')) {
+      return 'Senha incorreta.';
+    }
+    
+    // Tratar erros baseados no código de status
+    switch (statusCode) {
+      case 401: // Unauthorized
+        return 'E-mail/login ou senha incorretos.';
+      
+      case 404: // Not Found
+        return 'Usuário não encontrado.';
+      
+      case 400: // Bad Request
+        return 'Dados inválidos. Verifique as informações.';
+      
+      case 500: // Internal Server Error
+        return 'Erro interno do servidor. Tente novamente em alguns minutos.';
+      
+      default:
+        if (errorMessage.toLowerCase().includes('network') || 
+            errorMessage.toLowerCase().includes('timeout')) {
+          return 'Problema de conexão. Verifique sua internet e tente novamente.';
+        }
+        
+        // Retornar a mensagem de erro original se disponível, senão uma mensagem genérica
+        return errorMessage || 'Erro ao fazer login. Tente novamente.';
+    }
+  };
 
   const handleLogin = async () => {
-    if (!email.trim()) {
-      Alert.alert('Erro', 'Por favor, digite seu e-mail ou login.');
-      return;
-    }
-
-    if (!password.trim()) {
-      Alert.alert('Erro', 'Por favor, digite sua senha.');
-      return;
-    }
+    if (!isFormValid) return;
 
     setIsLoading(true);
+    setError(''); // Limpar erro anterior
+    
     try {
       console.log('Tentando fazer login com:', { email, password });
 
@@ -60,19 +104,19 @@ export default function Login({ screen, navigation }) {
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error);
-      
-      let mensagemErro = 'Erro ao fazer login. Tente novamente.';
-      
-      if (error.message.includes('Usuário não encontrado')) {
-        mensagemErro = 'Usuário não encontrado.';
-      } else if (error.message.includes('Senha incorreta')) {
-        mensagemErro = 'Senha incorreta.';
-      }
-      
-      Alert.alert('Erro', mensagemErro);
+      setError(getErrorMessage(error));
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Função para obter o estilo do input baseado na validação
+  const getInputContainerStyle = (field, value) => {
+    if (!value.trim()) return styles.inputContainerNeutral;
+    
+    // Para login, consideramos válido qualquer valor preenchido
+    // Você pode adicionar validações mais específicas aqui se necessário
+    return styles.inputContainerValid;
   };
 
   return (
@@ -111,13 +155,16 @@ export default function Login({ screen, navigation }) {
       {/* Formulário */}
       <View style={styles.formContainer}>
         {/* Campo E-mail */}
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer, getInputContainerStyle('email', email)]}>
           <TextInput
             style={styles.textInput}
             placeholder="E-mail ou Login"
             placeholderTextColor="#FFFFFF"
             value={email}
-            onChangeText={setEmail}
+            onChangeText={(text) => {
+              setEmail(text);
+              if (error) setError(''); // Limpar erro quando usuário começar a digitar
+            }}
             keyboardType="email-address"
             autoCapitalize="none"
             editable={!isLoading}
@@ -125,13 +172,16 @@ export default function Login({ screen, navigation }) {
         </View>
         
         {/* Campo Senha */}
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer, getInputContainerStyle('password', password)]}>
           <TextInput
             style={[styles.textInput, styles.passwordInput]}
             placeholder="Senha"
             placeholderTextColor="#FFFFFF"
             value={password}
-            onChangeText={setPassword}
+            onChangeText={(text) => {
+              setPassword(text);
+              if (error) setError(''); // Limpar erro quando usuário começar a digitar
+            }}
             secureTextEntry={!showPassword}
             editable={!isLoading}
           />
@@ -147,12 +197,21 @@ export default function Login({ screen, navigation }) {
             />
           </TouchableOpacity> 
         </View>
+
+        {/* Mensagem de erro */}
+        <Text style={styles.errorText}>
+          {error}
+        </Text>
         
         {/* Botão Login */}
         <TouchableOpacity 
-          style={[styles.loginButtonForm, isLoading && { opacity: 0.7 }]}
+          style={[
+            styles.loginButtonForm,
+            isLoading ? styles.loginButtonLoading : 
+            isFormValid ? styles.loginButtonEnabled : styles.loginButtonDisabled
+          ]}
           onPress={handleLogin}
-          disabled={isLoading}
+          disabled={isLoading || !isFormValid}
         >
           {isLoading ? (
             <ActivityIndicator color="#FFFFFF" />

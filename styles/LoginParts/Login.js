@@ -68,6 +68,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 13,
     position: 'relative',
   },
+
   textInput: {
     fontFamily: font.fontFamily,
     fontSize: 12,
@@ -93,12 +94,22 @@ export const styles = StyleSheet.create({
     height: 15,
     tintColor: colors.white,
   },
+  // Estados do botão de login
   loginButtonForm: {
     width: 218,
     height: 40,
-    backgroundColor: '#0A84FF',
+    backgroundColor: colors.blue,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  loginButtonEnabled: {
+    opacity: 1,
+  },
+  loginButtonDisabled: {
+    opacity: 0.5,
+  },
+  loginButtonLoading: {
+    opacity: 0.7,
   },
   loginButtonText: {
     fontFamily: font.fontFamily,
@@ -106,5 +117,14 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 20,
     color: colors.white,
+  },
+  // Estilo para mensagens de erro
+  errorText: {
+    fontFamily: font.fontFamily,
+    fontWeight: fontWeight.regular,
+    fontSize: 12,
+    color: colors.red,
+    textAlign: 'center',
+    width: 218,
   },
 })
