@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-// Importar componentes
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LoginScreen from './components/LoginScreen';
@@ -13,20 +12,17 @@ import AboutScreen from './components/AboutScreen';
 import ContactScreen from './components/ContactScreen';
 import HomeScreen from './components/HomeScreen';
 
-import { globalStyles, colors, useOutfitFonts } from './styles/globalStyles';
+import authService from './services/authService';
+import { colors, useOutfitFonts } from './styles/globalStyles';
+import apiService from './services/api';
 
 const Stack = createStackNavigator();
 
-// localStorageCredential = ''
-
-function AppNavigator() {
+function AppNavigator({ initialRoute }) {
   return (
     <Stack.Navigator
-      initialRouteName="Login"
-      // initialRouteName = {localStorageCredential ? 'Home' : 'Login'}
-      screenOptions={{
-        headerShown: false,
-      }}
+      initialRouteName={initialRoute}
+      screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
@@ -37,12 +33,36 @@ function AppNavigator() {
 }
 
 export default function App() {
-  // Carregar as fontes
+  const [isLoading, setIsLoading] = useState(true);
+  const [initialRoute, setInitialRoute] = useState('Login');
   const fontsLoaded = useOutfitFonts();
 
-  // Aguardar carregar as fontes
-  if (!fontsLoaded) {
-    return null;
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  const checkToken = async () => {
+    console.log('aconteci novamente');
+    const token = await authService.obterToken();
+    const response = await apiService.fazerLogin(null, token);
+    console.log(response, 'login pelo token');
+    
+
+    const validToken = false
+    setInitialRoute(validToken ? 'Home' : 'Login');
+    setIsLoading(false);
+  };
+
+  if (!fontsLoaded || isLoading) {
+    return (
+      <SafeAreaProvider>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={colors.blue} />
+          </View>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    );
   }
 
   return (
@@ -52,7 +72,7 @@ export default function App() {
           <StatusBar />
           <Header />
           <View style={styles.content}>
-            <AppNavigator />
+            <AppNavigator initialRoute={initialRoute} />
           </View>
           <Footer />
         </SafeAreaView>
@@ -68,5 +88,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

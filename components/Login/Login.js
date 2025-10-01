@@ -18,19 +18,16 @@ export default function Login({ screen, navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Verificar se os campos obrigatórios estão preenchidos
   const isFormValid = useMemo(() => {
     return email.trim().length > 0 && password.trim().length > 0;
   }, [email, password]);
 
-  // Função para tratar diferentes tipos de erro da API
   const getErrorMessage = (error) => {
     console.log('Erro completo:', error);
     
     const errorMessage = error.message || error.response?.data?.detail || error.response?.data?.message || '';
     const statusCode = error.response?.status;
     
-    // Tratar erros baseados no conteúdo da mensagem
     if (errorMessage.toLowerCase().includes('usuário não encontrado') || 
         errorMessage.toLowerCase().includes('user not found')) {
       return 'E-mail ou login não encontrado.';
@@ -42,21 +39,20 @@ export default function Login({ screen, navigation }) {
       return 'Senha incorreta.';
     }
     
-    // Tratar erros baseados no código de status
     switch (statusCode) {
-      case 401: // Unauthorized
+      case 401:
         return 'E-mail/login ou senha incorretos.';
       
-      case 404: // Not Found
+      case 404:
         return 'Usuário não encontrado.';
       
-      case 400: // Bad Request
+      case 400:
         return 'Dados inválidos. Verifique as informações.';
       
-      case 429: // Rate limit
+      case 429:
         return 'Muitas tentativas. Aguarde um momento e tente novamente.';
       
-      case 500: // Internal Server Error
+      case 500:
         return 'Erro interno do servidor. Tente novamente em alguns minutos.';
       
       default:
@@ -64,8 +60,7 @@ export default function Login({ screen, navigation }) {
             errorMessage.toLowerCase().includes('timeout')) {
           return 'Problema de conexão. Verifique sua internet e tente novamente.';
         }
-        
-        // Retornar a mensagem de erro original se disponível, senão uma mensagem genérica
+
         return errorMessage || 'Erro ao fazer login. Tente novamente.';
     }
   };
@@ -74,13 +69,10 @@ export default function Login({ screen, navigation }) {
     if (!isFormValid) return;
 
     setIsLoading(true);
-    setError(''); // Limpar erro anterior
+    setError('');
     
     try {
-      console.log('Tentando fazer login com:', { email, password });
-
       const response = await apiService.fazerLogin(email, password);
-
       console.log('Resposta do login:', response);
 
       // Verificar se o login foi bem-sucedido

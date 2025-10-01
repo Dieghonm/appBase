@@ -1,18 +1,23 @@
-// Configuração da API
 import config from '../config/api';
+import authService from './authService';
+
 const API_BASE_URL = config.API_BASE_URL;
 
 class ApiService {
-  // Método base para fazer requisições
   async makeRequest(endpoint, options = {}) {
     try {
       const url = `${API_BASE_URL}${endpoint}`;
-      
+      const token = await authService.obterToken();
+            
       const defaultOptions = {
         headers: {
           'Content-Type': 'application/json',
         },
       };
+
+      if (token && !options.skipAuth) {
+        defaultOptions.headers['Authorization'] = `Bearer ${token}`;
+      }
 
       const config = {
         ...defaultOptions,
@@ -24,22 +29,24 @@ class ApiService {
       };
 
       const response = await fetch(url, config);
-      
       let data;
+      
       try {
         data = await response.json();
       } catch (e) {
         data = { message: await response.text() };
       }
 
-      console.log('Resposta da API:', data.access_token);
-
       if (!response.ok) {
-        // Ajustar para o formato do seu backend FastAPI
         const errorMessage = data.detail || data.message || `Erro HTTP: ${response.status}`;
         const error = new Error(errorMessage);
         error.response = { status: response.status, data };
         throw error;
+      }
+      
+      if (response.access_token) {
+        console.log(response.access_token, "response.access_token")
+        await authService.salvarToken(response.access_token);
       }
 
       return data;
@@ -49,78 +56,49 @@ class ApiService {
     }
   }
 
-  // Cadastrar usuário - ajustado para seu backend
   async cadastrarUsuario(dadosUsuario) {
-    // Mapear os campos para o formato do seu backend
     const payload = {
       login: dadosUsuario.login,
       senha: dadosUsuario.senha,
       email: dadosUsuario.email,
       tag: dadosUsuario.tag || 'cliente',
-      plan: dadosUsuario.plan || null,
+      plan: dadosUsuario.plan || 'trial',
     };
 
     return this.makeRequest('/cadastro', {
       method: 'POST',
       body: JSON.stringify(payload),
+      skipAuth: true,
     });
   }
 
-  // Fazer login - ajustado para seu backend
-  async fazerLogin(emailOuLogin, senha) {
-    const payload = {
-      email_ou_login: emailOuLogin,
-      senha: senha,
-    };
-
-    return this.makeRequest('/login', {
+  async fazerLogin(emailOuLogin, senhaOuToken) {
+    let payload = {}
+    if (emailOuLogin){
+      payload = {
+        email_ou_login: emailOuLogin,
+        senha: senhaOuToken,
+      };
+    }else{
+      payload = {token : senhaOuToken}
+    }
+    const response = await this.makeRequest('/login', {
       method: 'POST',
       body: JSON.stringify(payload),
+      skipAuth: true,
     });
+    
+    if (response.access_token) {
+      await authService.salvarToken(response.access_token);
+    }
+
+    return response;
   }
 
-  // Buscar dados do usuário atual (com token)
-  async buscarUsuarioAtual(token) {
-    return this.makeRequest('/me', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-  }
-
-  // Listar usuários (para admins)
-  async listarUsuarios(token) {
-    return this.makeRequest('/usuarios', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-  }
-
-  // Buscar usuário por ID
-  async buscarUsuario(id, token) {
-    return this.makeRequest(`/usuarios/${id}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-  }
-
-  // Health check
-  async healthCheck() {
-    return this.makeRequest('/health');
-  }
-
-  // Teste de conexão
-  async testarConexao() {
-    return this.makeRequest('/');
+  async buscarUsuarioAtual() {
+    return this.makeRequest('/me', { method: 'GET' });
   }
 }
 
-// Instância única do serviço
 const apiService = new ApiService();
-
 export default apiService;

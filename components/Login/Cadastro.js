@@ -1,4 +1,6 @@
 import React, { useState, useMemo } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   View,
   Text,
@@ -12,6 +14,7 @@ import {
 
 import { styles } from '../../styles/LoginParts/Cadastro';
 import apiService from '../../services/api';
+import authService from '../../services/authService';
 
 export default function Cadastro({ screen }) {
   const [name, setName] = useState('');
@@ -165,21 +168,24 @@ export default function Cadastro({ screen }) {
         email: email,
         senha: password,
         tag: 'cliente',
-        plan: null
+        plan: 'trial'
       };
+
       const response = await apiService.cadastrarUsuario(dadosUsuario);
 
       if (response.sucesso || response.id) {
-        Alert.alert(
-          'Sucesso!',
-          'Conta criada com sucesso!',
-          [
-            {
-              text: 'OK',
-              // onPress: () => screen('PAYMENT')
-            }
-          ]
-        );
+        if (authService.salvarToken(response.access_token)){
+            Alert.alert(
+              'Sucesso!',
+              'Conta criada com sucesso!',
+              [
+                {
+                  text: 'OK',
+                  // onPress: () => screen('PAYMENT')
+                }
+              ]
+            );
+        }
       } else {
         throw new Error('Resposta inválida do servidor');
       }
