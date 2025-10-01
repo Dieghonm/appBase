@@ -23,20 +23,16 @@ class ApiService {
         },
       };
 
-      console.log('Fazendo requisição para:', url);
-      console.log('Configurações:', config);
-
       const response = await fetch(url, config);
       
       let data;
       try {
         data = await response.json();
       } catch (e) {
-        // Se não conseguir fazer parse do JSON, usar texto
         data = { message: await response.text() };
       }
 
-      console.log('Resposta da API:', data);
+      console.log('Resposta da API:', data.access_token);
 
       if (!response.ok) {
         // Ajustar para o formato do seu backend FastAPI

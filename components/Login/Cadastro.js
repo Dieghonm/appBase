@@ -126,7 +126,7 @@ export default function Cadastro({ screen }) {
       case 422:
         return 'Dados não puderam ser processados. Verifique os campos obrigatórios.';
       
-      case 429: // Rate limit
+      case 429:
         return 'Muitas tentativas. Aguarde um momento e tente novamente.';
       
       case 500:
@@ -167,7 +167,6 @@ export default function Cadastro({ screen }) {
         tag: 'cliente',
         plan: null
       };
-
       const response = await apiService.cadastrarUsuario(dadosUsuario);
 
       if (response.sucesso || response.id) {

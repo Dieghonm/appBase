@@ -17,10 +17,13 @@ import { globalStyles, colors, useOutfitFonts } from './styles/globalStyles';
 
 const Stack = createStackNavigator();
 
+// localStorageCredential = ''
+
 function AppNavigator() {
   return (
     <Stack.Navigator
       initialRouteName="Login"
+      // initialRouteName = {localStorageCredential ? 'Home' : 'Login'}
       screenOptions={{
         headerShown: false,
       }}
