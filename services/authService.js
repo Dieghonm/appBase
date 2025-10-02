@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TOKEN_KEY = '@eden_map:token';
+const MODE_KEY = '@eden_map:theme';
 
 class AuthService {
   async salvarToken(token) {
@@ -21,6 +22,24 @@ class AuthService {
     } catch (error) {
       console.error('Erro ao obter token:', error);
       return null;
+    }
+  }
+
+  async salvarTema(mode) {
+    try {
+      await AsyncStorage.setItem(MODE_KEY, mode);
+    } catch (error) {
+      console.error('Erro ao salvar tema:', error);
+    }
+  }
+
+  async obterTema() {
+    try {
+      const mode = await AsyncStorage.getItem(MODE_KEY);
+      return mode;
+    } catch (error) {
+      console.error('Erro ao obter tema:', error);
+      return 'dark';
     }
   }
 }

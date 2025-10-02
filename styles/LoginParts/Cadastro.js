@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.secondary,
     borderRadius: borderRadius.lg,
     borderWidth: 1,
-    borderColor: colors.red,
+    borderColor: colors.warning,
     padding: 15,
     marginBottom: 30,
     marginHorizontal: 20,
@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     fontFamily: font.fontFamily,
     fontWeight: fontWeight.bold,
     fontSize: fontSize.sm,
-    color: colors.white,
+    color: colors.fontColor,
     marginBottom: 10,
   },
   alertIcon: {
@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     fontFamily: font.fontFamily,
     fontWeight: fontWeight.bold,
     fontSize: fontSize.xs,
-    color: colors.white,
+    color: colors.fontColor,
     marginTop: 8,
     marginBottom: 4,
   },
@@ -50,19 +50,19 @@ export const styles = StyleSheet.create({
     fontFamily: font.fontFamily,
     fontWeight: fontWeight.regular,
     fontSize: fontSize.xs,
-    color: colors.white,
+    color: colors.fontColor,
     lineHeight: 14,
     marginBottom: 2,
   },
 
   rulesTextValid: {
-    color: colors.green,
+    color: colors.sucess,
   },
   rulesTextInvalid: {
-    color: colors.red,
+    color: colors.warning,
   },
   rulesTextNeutral: {
-    color: colors.white, 
+    color: colors.fontColor, 
   },
 
   logoContainer: {
@@ -79,18 +79,18 @@ export const styles = StyleSheet.create({
     fontWeight: fontWeight.bold,
     fontSize: fontSize.xxl,
     lineHeight: 30,
-    color: colors.white,
+    color: colors.fontColor,
     marginBottom: 5,
   },
   logoSubtitle: {
     fontFamily: font.fontFamily,
     fontWeight: fontWeight.regular,
     fontSize: fontSize.sm,
-    color: colors.white,
+    color: colors.fontColor,
     textAlign: 'center',
   },
   linkText: {
-    color: colors.yellow,
+    color: colors.alert,
     textDecorationLine: 'underline',
   },
 
@@ -116,7 +116,7 @@ export const styles = StyleSheet.create({
   textInput: {
     fontFamily: font.fontFamily,
     fontSize: fontSize.sm,
-    color: colors.white,
+    color: colors.fontColor,
     fontWeight: fontWeight.regular,
     flex: 1,
   },
@@ -135,13 +135,13 @@ export const styles = StyleSheet.create({
   eyeIconImage: {
     width: 15,
     height: 15,
-    tintColor: colors.white,
+    tintColor: colors.fontColor,
   },
   // Estados do botão
   registerButton: {
     width: 250,
     height: 45,
-    backgroundColor: colors.blue,
+    backgroundColor: colors.button,
     borderRadius: borderRadius.sm,
     justifyContent: 'center',
     alignItems: 'center',
@@ -161,14 +161,14 @@ export const styles = StyleSheet.create({
     fontWeight: fontWeight.bold,
     fontSize: fontSize.md,
     lineHeight: 20,
-    color: colors.white,
+    color: colors.fontColor,
   },
 
   errorText: {
     fontFamily: font.fontFamily,
     fontWeight: fontWeight.regular,
     fontSize: fontSize.xs,
-    color: colors.red,
+    color: colors.warning,
     textAlign: 'center',
   },
 });

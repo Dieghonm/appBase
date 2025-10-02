@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     fontFamily: font.fontFamily,
     fontSize: 24,
     lineHeight: 30,
-    color: colors.white,
+    color: colors.fontColor,
     fontWeight: fontWeight.bold,
     marginTop: 10,
   },
@@ -32,12 +32,12 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 20,
     textAlign: 'center',
-    color: colors.white,
+    color: colors.fontColor,
     marginBottom: 15,
     marginHorizontal: 50, // Centralizar melhor
   },  
   linkTextY: {
-    color: colors.yellow,
+    color: colors.alert,
     textDecorationLine: 'underline',
   },
   forgotText: {
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 20,
     textAlign: 'center',
-    color: colors.white,
+    color: colors.fontColor,
     marginBottom: 20,
     marginHorizontal: 50, // Centralizar melhor
   },
@@ -73,7 +73,7 @@ export const styles = StyleSheet.create({
     fontFamily: font.fontFamily,
     fontSize: 12,
     lineHeight: 15,
-    color: colors.white,
+    color: colors.fontColor,
     fontWeight: fontWeight.regular,
     flex: 1,
   },
@@ -92,13 +92,13 @@ export const styles = StyleSheet.create({
   eyeIconImage: {
     width: 15,
     height: 15,
-    tintColor: colors.white,
+    tintColor: colors.fontColor,
   },
   // Estados do botão de login
   loginButtonForm: {
     width: 218,
     height: 40,
-    backgroundColor: colors.blue,
+    backgroundColor: colors.button,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -116,14 +116,14 @@ export const styles = StyleSheet.create({
     fontWeight: fontWeight.bold,
     fontSize: 16,
     lineHeight: 20,
-    color: colors.white,
+    color: colors.fontColor,
   },
   // Estilo para mensagens de erro
   errorText: {
     fontFamily: font.fontFamily,
     fontWeight: fontWeight.regular,
     fontSize: 12,
-    color: colors.red,
+    color: colors.warning,
     textAlign: 'center',
     width: 218,
   },

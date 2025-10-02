@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     fontWeight: fontWeight.bold,
     fontSize: fontSize.xxl,
     lineHeight: 30,
-    color: colors.white,
+    color: colors.fontColor,
   },
   // Container dos benefícios
   benefitsContainer: {
@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
     fontWeight: fontWeight.medium,
     fontSize: fontSize.md,
     lineHeight: 18,
-    color: colors.white,
+    color: colors.fontColor,
   },
 
   // // Container dos planos
@@ -69,14 +69,14 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
   },
   planOrange: {
-    borderColor: colors.yellow,
+    borderColor: colors.alert,
   },
   planGreen: {
-    borderColor: colors.green,
+    borderColor: colors.sucess,
 
   },
   planRed: {
-    borderColor: colors.red,
+    borderColor: colors.warning,
   },
   planTitle: {
     fontFamily: font.fontFamily,
@@ -86,26 +86,26 @@ export const styles = StyleSheet.create({
     marginBottom: 5,
   },
   planTitleOrange: {
-    color: colors.yellow,
+    color: colors.alert,
   },
   planTitleGreen: {
-    color: colors.green,
+    color: colors.sucess,
   },
   planTitleRed: {
-    color: colors.red,
+    color: colors.warning,
   },
   planPrice: {
     fontFamily: font.fontFamily,
     fontWeight: fontWeight.medium,
     fontSize: fontSize.sm,
     lineHeight: 18,
-    color: colors.white,
+    color: colors.fontColor,
   },
   // // Botão principal
   button: {
     width: 240,
     height: 45,
-    backgroundColor: colors.blue,
+    backgroundColor: colors.button,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
@@ -115,7 +115,7 @@ export const styles = StyleSheet.create({
     fontWeight: fontWeight.bold,
     fontSize: fontSize.md,
     lineHeight: 20,
-    color: colors.white,
+    color: colors.fontColor,
   },
   // Texto de cancelamento
   cancelText: {
@@ -127,7 +127,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.xs,
     lineHeight: 15,
     textAlign: 'center',
-    color: colors.white,
+    color: colors.fontColor,
   },
 });
 

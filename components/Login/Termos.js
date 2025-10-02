@@ -1,18 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   Image,
+  StyleSheet,
 } from 'react-native';
-import { styles } from '../../styles/LoginParts/Termos';
+import { useThemeColors, borderRadius, font, fontSize, fontWeight } from '../../styles/theme';
+import authService from '../../services/authService';
 
 const TermosBox = ({ screen }) => {
+  const colors = useThemeColors();
   const [isAgreed, setIsAgreed] = useState(false);
-  
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    const loadTheme = async () => {
+      const savedTheme = await authService.obterTema();
+      setTheme(savedTheme === 'pink' ? 'pink' : 'dark');
+    };
+    loadTheme();
+  }, []);
+
+  const changeMode = async (mode) => {
+    await authService.salvarTema(mode);
+    setTheme(mode === 'pink' ? 'pink' : 'dark');
+  };
+
+  const styles = createStyles(colors); // cria os estilos dinamicamente
+
   return (
-    <View>
-      {/* Logo */}
+    <View style={{ flex: 1, backgroundColor: colors.background, padding: 20 }}>
       <View style={styles.logoContainer}>
         <Image
           source={require('../../assets/Logo.png')}
@@ -20,19 +38,32 @@ const TermosBox = ({ screen }) => {
           resizeMode="contain"
         />
       </View>
+
       <View>
-        {/* Welcome title */}
-        <Text style={styles.welcomeTitle}>
-          Bem-Vindo ao Eden Map
-        </Text>
-        
-        {/* Welcome subtitle */}
-        <Text style={styles.welcomeSubtitle}>
-          Encontre o paraíso dentro de você!
-        </Text>
+        <Text style={styles.welcomeTitle}>Bem-Vindo ao Eden Map</Text>
+        <Text style={styles.welcomeSubtitle}>Encontre o paraíso dentro de você!</Text>
       </View>
-      
-      {/* Terms and conditions section */}
+
+      <View style={styles.modeBoxContainer}>
+        <Text style={styles.modeTitle}>Selecione um modo de exibição:</Text>
+
+        <View style={styles.modeBox}>
+          <TouchableOpacity
+            onPress={() => changeMode('dark')}
+            style={[styles.modeselect, theme === 'dark' && styles.modeselectActive]}
+          >
+            <Text style={styles.modeText}>DarkMode</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => changeMode('pink')}
+            style={[styles.modeselect, styles.modeselectAlt, theme === 'pink' && styles.modeselectActive]}
+          >
+            <Text style={styles.modeText}>Pink</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
       <View style={styles.termsContainer}>
         <TouchableOpacity
           style={styles.termsButton}
@@ -45,40 +76,31 @@ const TermosBox = ({ screen }) => {
             <Text style={styles.linkText}>Termos e Condições</Text> do Eden Map e
             aceito a <Text style={styles.linkText}>Política de Privacidade</Text>.
             {'\n'}
-            <Text style={styles.warning}>Para concordar clique no círculo.</Text> 
+            <Text style={styles.warning}>Para concordar clique no círculo.</Text>
           </Text>
         </TouchableOpacity>
       </View>
-      
+
       <TouchableOpacity
         style={[styles.createAccountButton, !isAgreed && styles.buttonDisabled]}
         disabled={!isAgreed}
         activeOpacity={0.8}
-        onPress={() => {
-          if (isAgreed) {
-            screen('CADASTRO');
-          }
-        }}
+        onPress={() => isAgreed && screen('CADASTRO')}
       >
         <Text style={styles.createAccountText}>Criar minha conta</Text>
       </TouchableOpacity>
-      
-      {/* Login button */}
-      <TouchableOpacity 
+
+      <TouchableOpacity
         style={[styles.loginButton, !isAgreed && styles.buttonDisabled]}
-        activeOpacity={0.8}
         disabled={!isAgreed}
-        onPress={() => {
-          if (isAgreed) {
-            screen('LOGIN');
-          }
-        }}
+        activeOpacity={0.8}
+        onPress={() => isAgreed && screen('LOGIN')}
       >
-        <Text style={styles.loginText}
-        >Login</Text>
+        <Text style={styles.loginText}>Login</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
 export default TermosBox;
+
