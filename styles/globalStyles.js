@@ -34,18 +34,20 @@ const dark = {
   accent: '#DCA2FF',
 };
 
+export const colors = dark;
+
 export const useThemeColors = () => {
-  const [colors, setColors] = useState(dark); // padrão dark
+  const [themeColors, setThemeColors] = useState(dark);
 
   useEffect(() => {
     const loadTheme = async () => {
       const mode = await authService.obterTema();
-      setColors(mode === 'pink' ? pink : dark); // fallback para dark
+      setThemeColors(mode === 'pink' ? pink : dark);
     };
     loadTheme();
   }, []);
 
-  return colors;
+  return themeColors;
 };
 
 export const spacing = {
@@ -66,19 +68,20 @@ export const borderRadius = {
 };
 
 export const font = {
-  family: 'Outfit_400Regular',
+  fontFamily: 'Outfit_400Regular',
 };
 
 export const fontWeight = {
-  thin: 100,
-  extralight: 200,
-  light: 300,
-  normal: 400,
-  medium: 500,
-  semibold: 600,
-  bold: 700,
-  extrabold: 800,
-  black: 900,
+  thin: '100',
+  extralight: '200',
+  light: '300',
+  regular: '400',
+  normal: '400',
+  medium: '500',
+  semibold: '600',
+  bold: '700',
+  extrabold: '800',
+  black: '900',
 };
 
 export const fontSize = {

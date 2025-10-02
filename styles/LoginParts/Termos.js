@@ -1,4 +1,7 @@
-const createStyles = (colors) =>
+import { StyleSheet } from 'react-native';
+import { borderRadius, font, fontSize, fontWeight } from '../globalStyles';
+
+export const createStyles = (colors) =>
   StyleSheet.create({
     logoContainer: {
       marginTop: 110,
@@ -10,7 +13,7 @@ const createStyles = (colors) =>
       height: 34.32,
     },
     welcomeTitle: {
-      fontFamily: font.family,
+      fontFamily: font.fontFamily,
       fontWeight: fontWeight.bold,
       fontSize: fontSize.xxl,
       lineHeight: 30,
@@ -18,7 +21,7 @@ const createStyles = (colors) =>
       textAlign: 'center',
     },
     welcomeSubtitle: {
-      fontFamily: font.family,
+      fontFamily: font.fontFamily,
       fontWeight: fontWeight.medium,
       fontSize: fontSize.md,
       lineHeight: 20,
@@ -26,6 +29,11 @@ const createStyles = (colors) =>
       textAlign: 'center',
       marginBottom: 30,
     },
+
+
+
+
+    
     modeBoxContainer: {
       marginBottom: 20,
       alignItems: 'center',
@@ -48,147 +56,95 @@ const createStyles = (colors) =>
       width: 140,
       height: 48,
       borderRadius: 8,
-      backgroundColor: colors.secondary,
+      backgroundColor: '#212224',
     },
     modeselectAlt: {
-      backgroundColor: colors.terciario,
+      backgroundColor: '#F4CDC0',
     },
     modeselectActive: {
       borderWidth: 2,
       borderColor: colors.button,
     },
     modeText: {
-      color: colors.fontColor,
+      color: '#FFFFFF',
       fontSize: 18,
       marginLeft: 8,
     },
+    pink: {
+      color: '#4A2C2A'
+    },
     termsContainer: {
-      marginVertical: 20,
+      width: 310,
+      marginBottom: 30,
+      paddingHorizontal: 6,
     },
     termsButton: {
       flexDirection: 'row',
       alignItems: 'flex-start',
     },
     checkbox: {
-      width: 20,
-      height: 20,
+      width: 15,
+      height: 15,
       borderRadius: borderRadius.md,
-      borderWidth: 2,
-      borderColor: colors.fontColor,
-      marginRight: 8,
+      backgroundColor: colors.fontColor,
+      marginRight: 7,
+      marginTop: 18,
     },
     checkboxChecked: {
       backgroundColor: colors.button,
     },
     termsText: {
-      color: colors.fontColor,
+      fontFamily: font.fontFamily,
+      fontWeight: fontWeight.medium,
       fontSize: fontSize.sm,
+      lineHeight: 18,
+      color: colors.fontColor,
+      flex: 1,
+      textAlign: 'left',
     },
     linkText: {
+      color: colors.warning,
+      textDecorationLine: 'underline',
+    },
+    linkTextY: {
+      color: colors.alert,
       textDecorationLine: 'underline',
     },
     warning: {
-      color: colors.warning,
-      fontSize: fontSize.xs,
+      color: colors.alert,
     },
     createAccountButton: {
+      width: 290,
+      height: 45,
       backgroundColor: colors.button,
-      padding: 12,
-      borderRadius: borderRadius.md,
-      marginVertical: 10,
+      borderRadius: borderRadius.sm,
+      justifyContent: 'center',
       alignItems: 'center',
+      marginBottom: 30,
     },
     createAccountText: {
-      color: colors.fontColor,
+      fontFamily: font.fontFamily,
       fontWeight: fontWeight.bold,
       fontSize: fontSize.md,
+      lineHeight: 20,
+      color: colors.fontColor,
     },
     loginButton: {
-      backgroundColor: colors.terciario,
-      padding: 12,
-      borderRadius: borderRadius.md,
+      width: 290,
+      height: 45,
+      backgroundColor: colors.fontColor,
+      borderRadius: borderRadius.sm,
+      justifyContent: 'center',
       alignItems: 'center',
     },
     loginText: {
-      color: colors.fontColor,
+      fontFamily: font.fontFamily,
       fontWeight: fontWeight.bold,
       fontSize: fontSize.md,
+      lineHeight: 20,
+      color: colors.button,
     },
     buttonDisabled: {
       opacity: 0.5,
     },
-  termsContainer: {
-    width: 310,
-    marginBottom: 30,
-    paddingHorizontal: 6,
-  },
-  termsButton: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  checkbox: {
-    width: 15,
-    height: 15,
-    borderRadius: borderRadius.md,
-    backgroundColor: colors.fontColor,
-    marginRight: 7,
-    marginTop: 18,
-  },
-  checkboxChecked: {
-    backgroundColor: colors.button,
-  },
-  termsText: {
-    fontFamily: font.fontFamily,
-    fontWeight: fontWeight.medium,
-    fontSize: fontSize.sm,
-    lineHeight: 18,
-    color: colors.fontColor,
-    flex: 1,
-    textAlign: 'left',
-  },
-  linkText: {
-    color: colors.warning,
-    textDecorationLine: 'underline',
-  },
-  linkTextY: {
-    color: colors.alert,
-    textDecorationLine: 'underline',
-  },
-  warning: {
-    color: colors.alert,
-  },
-  createAccountButton: {
-    width: 290,
-    height: 45,
-    backgroundColor: colors.button,
-    borderRadius: borderRadius.sm,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  createAccountText: {
-    fontFamily: font.fontFamily,
-    fontWeight: fontWeight.bold,
-    fontSize: fontSize.md,
-    lineHeight: 20,
-    color: colors.fontColor,
-  },
-  loginButton: {
-    width: 290,
-    height: 45,
-    backgroundColor: colors.fontColor,
-    borderRadius: borderRadius.sm,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loginText: {
-    fontFamily: font.fontFamily,
-    fontWeight: fontWeight.bold,
-    fontSize: fontSize.md,
-    lineHeight: 20,
-    color: colors.button,
-  },
-  buttonDisabled: {
-    opacity: 0.5,
-  },
-})
+  });

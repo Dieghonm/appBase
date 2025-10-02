@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, font, fontSize, fontWeight } from '../globalStyles';
+import { borderRadius, colors, font, fontSize, fontWeight } from '../globalStyles';
 
 export const styles = StyleSheet.create({
   container: {
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: colors.fontColor,
     marginBottom: 15,
-    marginHorizontal: 50, // Centralizar melhor
+    marginHorizontal: 50,
   },  
   linkTextY: {
     color: colors.alert,
@@ -49,24 +49,37 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: colors.fontColor,
     marginBottom: 20,
-    marginHorizontal: 50, // Centralizar melhor
+    marginHorizontal: 50,
   },
   formContainer: {
     width: 290,
     backgroundColor: '#3A3A3A',
+    borderRadius: borderRadius.md,
     paddingVertical: 20,
-    paddingHorizontal: 36, // Centralizar os inputs (290-218)/2
+    paddingHorizontal: 36,
     alignItems: 'center',
-    alignSelf: 'center', // Centralizar o container
+    alignSelf: 'center',
   },
   inputContainer: {
     width: 218,
     height: 40,
     backgroundColor: '#606060',
+    borderRadius: borderRadius.sm,
     marginBottom: 25,
     justifyContent: 'center',
     paddingHorizontal: 13,
     position: 'relative',
+  },
+  inputContainerValid: {
+    borderWidth: 2,
+    borderColor: colors.success,
+  },
+  inputContainerInvalid: {
+    borderWidth: 2,
+    borderColor: colors.warning,
+  },
+  inputContainerNeutral: {
+    borderWidth: 0,
   },
 
   textInput: {
@@ -94,11 +107,11 @@ export const styles = StyleSheet.create({
     height: 15,
     tintColor: colors.fontColor,
   },
-  // Estados do botão de login
   loginButtonForm: {
     width: 218,
     height: 40,
     backgroundColor: colors.button,
+    borderRadius: borderRadius.sm,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -118,7 +131,6 @@ export const styles = StyleSheet.create({
     lineHeight: 20,
     color: colors.fontColor,
   },
-  // Estilo para mensagens de erro
   errorText: {
     fontFamily: font.fontFamily,
     fontWeight: fontWeight.regular,
@@ -126,5 +138,6 @@ export const styles = StyleSheet.create({
     color: colors.warning,
     textAlign: 'center',
     width: 218,
+    marginBottom: 10,
   },
-})
+});

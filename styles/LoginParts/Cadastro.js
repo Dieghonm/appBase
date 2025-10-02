@@ -12,7 +12,6 @@ export const styles = StyleSheet.create({
     paddingBottom: 30,
   },
 
-  // Regras Container
   rulesContainer: {
     width: 310,
     backgroundColor: colors.secondary,
@@ -56,7 +55,7 @@ export const styles = StyleSheet.create({
   },
 
   rulesTextValid: {
-    color: colors.sucess,
+    color: colors.success,
   },
   rulesTextInvalid: {
     color: colors.warning,
@@ -112,6 +111,17 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 15,
     position: 'relative',
   },
+  inputContainerValid: {
+    borderWidth: 2,
+    borderColor: colors.success,
+  },
+  inputContainerInvalid: {
+    borderWidth: 2,
+    borderColor: colors.warning,
+  },
+  inputContainerNeutral: {
+    borderWidth: 0,
+  },
 
   textInput: {
     fontFamily: font.fontFamily,
@@ -137,7 +147,6 @@ export const styles = StyleSheet.create({
     height: 15,
     tintColor: colors.fontColor,
   },
-  // Estados do botão
   registerButton: {
     width: 250,
     height: 45,
@@ -170,5 +179,6 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.xs,
     color: colors.warning,
     textAlign: 'center',
+    marginBottom: 10,
   },
 });

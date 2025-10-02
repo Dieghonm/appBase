@@ -4,15 +4,16 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  StyleSheet,
 } from 'react-native';
-import { useThemeColors, borderRadius, font, fontSize, fontWeight } from '../../styles/theme';
+import { useThemeColors } from '../../styles/globalStyles';
+import { createStyles } from '../../styles/LoginParts/Termos';
 import authService from '../../services/authService';
 
 const TermosBox = ({ screen }) => {
   const colors = useThemeColors();
   const [isAgreed, setIsAgreed] = useState(false);
   const [theme, setTheme] = useState('dark');
+  const styles = createStyles(colors);
 
   useEffect(() => {
     const loadTheme = async () => {
@@ -25,9 +26,8 @@ const TermosBox = ({ screen }) => {
   const changeMode = async (mode) => {
     await authService.salvarTema(mode);
     setTheme(mode === 'pink' ? 'pink' : 'dark');
+    window.location.reload();
   };
-
-  const styles = createStyles(colors); // cria os estilos dinamicamente
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background, padding: 20 }}>
@@ -59,7 +59,7 @@ const TermosBox = ({ screen }) => {
             onPress={() => changeMode('pink')}
             style={[styles.modeselect, styles.modeselectAlt, theme === 'pink' && styles.modeselectActive]}
           >
-            <Text style={styles.modeText}>Pink</Text>
+            <Text style={[styles.modeText, styles.pink]}>Pink</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -103,4 +103,3 @@ const TermosBox = ({ screen }) => {
 };
 
 export default TermosBox;
-
