@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,15 +13,15 @@ import ContactScreen from './components/ContactScreen';
 import HomeScreen from './components/HomeScreen';
 
 import authService from './services/authService';
-import { colors, useOutfitFonts } from './styles/globalStyles';
+import { useThemeColors, useOutfitFonts } from './styles/globalStyles';
 import apiService from './services/api';
+import { createStyles } from './styles/AppStyles';
 
 const Stack = createStackNavigator();
 
 function AppNavigator({ initialRoute }) {
   return (
     <Stack.Navigator
-      // initialRouteName={initialRoute}
       initialRouteName="Login"
       screenOptions={{ headerShown: false }}
     >
@@ -37,19 +37,20 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [initialRoute, setInitialRoute] = useState('Login');
   const fontsLoaded = useOutfitFonts();
+  const colors = useThemeColors();
+  const styles = createStyles(colors);
 
   useEffect(() => {
     checkToken();
   }, []);
 
   const checkToken = async () => {
-    console.log('aconteci novamente');
+    console.log('Verificando token...');
     const token = await authService.obterToken();
     const response = await apiService.fazerLogin(null, token);
     console.log(response, 'login pelo token');
     
-
-    const validToken = false
+    const validToken = false;
     setInitialRoute(validToken ? 'Home' : 'Login');
     setIsLoading(false);
   };
@@ -81,18 +82,3 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  content: {
-    flex: 1,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
