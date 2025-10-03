@@ -59,7 +59,7 @@ const TermosBox = ({ screen }) => {
             onPress={() => changeMode('pink')}
             style={[styles.modeselect, styles.modeselectAlt, theme === 'pink' && styles.modeselectActive]}
           >
-            <Text style={[styles.modeText, styles.pink]}>Pink</Text>
+            <Text style={[styles.modeText, styles.pink]}>PinkMode</Text>
           </TouchableOpacity>
         </View>
       </View>
