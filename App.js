@@ -47,6 +47,7 @@ export default function App() {
   const checkToken = async () => {
     console.log('Verificando token...');
     const token = await authService.obterToken();
+        console.log('Verificando token...123');
     const response = await apiService.fazerLogin(null, token);
     console.log(response, 'login pelo token');
     
