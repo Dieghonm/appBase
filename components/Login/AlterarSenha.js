@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import { styles } from '../../styles/LoginParts/AlterarSenha';
+import { createStyles } from '../../styles/LoginParts/AlterarSenha';
+import { useThemeColors } from '../../styles/globalStyles';
 
 const { width, height } = Dimensions.get('window');
 
@@ -15,6 +16,9 @@ export default function AlterarSenha({ navigation }) {
   const [novaSenha, setNovaSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [mostrarSenha, setMostrarSenha] = useState(false);
+
+  const colors = useThemeColors();
+  const styles = createStyles(colors);
 
   const handleAlterarSenha = () => {
     console.log('Nova senha:', novaSenha);
@@ -40,9 +44,6 @@ export default function AlterarSenha({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Barra branca superior */}
-      <View style={styles.topBar} />
-
       {/* Card de regras */}
       <View style={styles.rulesCard}>
         <View style={styles.rulesHeader}>
@@ -88,7 +89,7 @@ export default function AlterarSenha({ navigation }) {
           <TextInput
             style={styles.input}
             placeholder="Nova senha"
-            placeholderTextColor="#FFFFFF80"
+            placeholderTextColor={colors.terciario}
             value={novaSenha}
             onChangeText={setNovaSenha}
             secureTextEntry={!mostrarSenha}
@@ -102,7 +103,7 @@ export default function AlterarSenha({ navigation }) {
           <TextInput
             style={styles.input}
             placeholder="Confirme a senha"
-            placeholderTextColor="#FFFFFF80"
+            placeholderTextColor={colors.terciario}
             value={confirmarSenha}
             onChangeText={setConfirmarSenha}
             secureTextEntry={!mostrarSenha}

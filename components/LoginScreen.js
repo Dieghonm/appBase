@@ -4,7 +4,7 @@ import { View, Image } from 'react-native';
 import TermosBox from './Login/Termos';
 import Login from './Login/Login';
 import Cadastro from './Login/Cadastro';
-import PaymentPlans from './Login/PaymentPlans';
+// import PaymentPlans from './Login/PaymentPlans';
 import AlterarSenha from './Login/AlterarSenha';
 import { useThemeColors } from '../styles/globalStyles';
 import { createStyles } from '../styles/LoginParts/LoginScreen';
@@ -25,14 +25,18 @@ export default function LoginScreen() {
       'CADASTRO': <Cadastro screen={handleScreenChange} />,
       'LOGIN': <Login screen={handleScreenChange} />,
       'ALTERARSENHA': <AlterarSenha screen={handleScreenChange} />,
-      'PAYMENT': <PaymentPlans screen={handleScreenChange} />
+      // 'PAYMENT': <PaymentPlans screen={handleScreenChange} />
     };
     
     return screenComponents[screen] || screenComponents['TERMOS'];
   };
 
   // Telas que não devem mostrar o GIF
-  const screensWithoutGif = ['CADASTRO', 'PAYMENT', 'ALTERARSENHA'];
+  const screensWithoutGif = [
+    'CADASTRO', 
+    // 'PAYMENT', 
+    'ALTERARSENHA'
+  ];
 
   return (
     <View style={styles.container}>

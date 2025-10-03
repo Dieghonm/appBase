@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { borderRadius, colors, font, fontSize, fontWeight, spacing } from '../globalStyles';
+import { borderRadius, font, fontSize, fontWeight, spacing } from '../globalStyles';
 
-export const styles = StyleSheet.create({
+export const createStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
@@ -94,8 +94,8 @@ export const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: colors.terciario,
     borderRadius: borderRadius.sm,
-    paddingHorizontal: spacing.sm + 4, // 12px
-    paddingVertical: spacing.sm + 4, // 12px
+    paddingHorizontal: spacing.sm + 4,
+    paddingVertical: spacing.sm + 4,
     fontFamily: font.fontFamily,
     fontWeight: fontWeight.normal,
     fontSize: fontSize.xs,
