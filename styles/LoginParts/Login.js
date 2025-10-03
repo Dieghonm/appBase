@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { borderRadius, colors, font, fontSize, fontWeight } from '../globalStyles';
+import { borderRadius, font, fontSize, fontWeight } from '../globalStyles';
 
-export const styles = StyleSheet.create({
+export const createStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
   },
   formContainer: {
     width: 290,
-    backgroundColor: '#3A3A3A',
+    backgroundColor: colors.secondary,
     borderRadius: borderRadius.md,
     paddingVertical: 20,
     paddingHorizontal: 36,
@@ -63,7 +63,7 @@ export const styles = StyleSheet.create({
   inputContainer: {
     width: 218,
     height: 40,
-    backgroundColor: '#606060',
+    backgroundColor: colors.terciario,
     borderRadius: borderRadius.sm,
     marginBottom: 25,
     justifyContent: 'center',

@@ -8,7 +8,8 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import { styles } from '../../styles/LoginParts/Login';
+import { createStyles } from '../../styles/LoginParts/Login';
+import { useThemeColors } from '../../styles/globalStyles';
 import apiService from '../../services/api';
 
 export default function Login({ screen, navigation }) {
@@ -17,6 +18,9 @@ export default function Login({ screen, navigation }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const colors = useThemeColors();
+  const styles = createStyles(colors);
 
   const isFormValid = useMemo(() => {
     return email.trim().length > 0 && password.trim().length > 0;
@@ -75,13 +79,7 @@ export default function Login({ screen, navigation }) {
       const response = await apiService.fazerLogin(email, password);
       console.log('Resposta do login:', response);
 
-      // Verificar se o login foi bem-sucedido
-      // Seu backend retorna um objeto com access_token
       if (response.access_token) {
-        // Salvar dados do usuário localmente se necessário
-        // AsyncStorage.setItem('token', response.access_token);
-        // AsyncStorage.setItem('userData', JSON.stringify(response.user));
-        
         Alert.alert(
           'Sucesso!',
           'Login realizado com sucesso!',
@@ -89,7 +87,6 @@ export default function Login({ screen, navigation }) {
             {
               text: 'OK',
               onPress: () => {
-                // Navegar para a tela principal do app
                 if (navigation) {
                   navigation.navigate('Home');
                 } else {
@@ -100,7 +97,6 @@ export default function Login({ screen, navigation }) {
           ]
         );
       } else {
-        // Se não houver token, algo deu errado
         throw new Error('Resposta inválida do servidor');
       }
     } catch (error) {
@@ -111,12 +107,8 @@ export default function Login({ screen, navigation }) {
     }
   };
 
-  // Função para obter o estilo do input baseado na validação
   const getInputContainerStyle = (field, value) => {
     if (!value.trim()) return styles.inputContainerNeutral;
-    
-    // Para login, consideramos válido qualquer valor preenchido
-    // Você pode adicionar validações mais específicas aqui se necessário
     return styles.inputContainerValid;
   };
 
@@ -160,11 +152,11 @@ export default function Login({ screen, navigation }) {
           <TextInput
             style={styles.textInput}
             placeholder="E-mail ou Login"
-            placeholderTextColor="#FFFFFF"
+            placeholderTextColor={colors.terciario}
             value={email}
             onChangeText={(text) => {
               setEmail(text);
-              if (error) setError(''); // Limpar erro quando usuário começar a digitar
+              if (error) setError('');
             }}
             keyboardType="email-address"
             autoCapitalize="none"
@@ -177,11 +169,11 @@ export default function Login({ screen, navigation }) {
           <TextInput
             style={[styles.textInput, styles.passwordInput]}
             placeholder="Senha"
-            placeholderTextColor="#FFFFFF"
+            placeholderTextColor={colors.terciario}
             value={password}
             onChangeText={(text) => {
               setPassword(text);
-              if (error) setError(''); // Limpar erro quando usuário começar a digitar
+              if (error) setError('');
             }}
             secureTextEntry={!showPassword}
             editable={!isLoading}
@@ -215,7 +207,7 @@ export default function Login({ screen, navigation }) {
           disabled={isLoading || !isFormValid}
         >
           {isLoading ? (
-            <ActivityIndicator color="#FFFFFF" />
+            <ActivityIndicator color={colors.fontColor} />
           ) : (
             <Text style={styles.loginButtonText}>Login</Text>
           )}

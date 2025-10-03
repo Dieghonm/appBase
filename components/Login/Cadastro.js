@@ -12,7 +12,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
-import { styles } from '../../styles/LoginParts/Cadastro';
+import { createStyles } from '../../styles/LoginParts/Cadastro';
+import { useThemeColors } from '../../styles/globalStyles';
 import apiService from '../../services/api';
 import authService from '../../services/authService';
 
@@ -24,6 +25,9 @@ export default function Cadastro({ screen }) {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  
+  const colors = useThemeColors();
+  const styles = createStyles(colors);
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

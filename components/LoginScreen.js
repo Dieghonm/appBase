@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Image,
-} from 'react-native';
+import { View, Image } from 'react-native';
 
 import TermosBox from './Login/Termos';
-import { styles } from '../styles/LoginParts/LoginScreen';
 import Login from './Login/Login';
 import Cadastro from './Login/Cadastro';
 import PaymentPlans from './Login/PaymentPlans';
 import AlterarSenha from './Login/AlterarSenha';
+import { useThemeColors } from '../styles/globalStyles';
+import { createStyles } from '../styles/LoginParts/LoginScreen';
 
 export default function LoginScreen() {
-  // const [screen, setScreen] = useState('ALTERARSENHA');
   const [screen, setScreen] = useState('TERMOS');
+  const colors = useThemeColors();
+  const styles = createStyles(colors);
 
   const handleScreenChange = (newScreen) => {
     console.log('Mudando para tela:', newScreen);
@@ -51,4 +50,4 @@ export default function LoginScreen() {
       {renderCurrentScreen()}
     </View>
   );
-};
+}

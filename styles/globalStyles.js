@@ -12,15 +12,19 @@ export const useOutfitFonts = () => {
 
 const pink = {
   background: '#F4CDC0',
-  secondary: '#EFB9A5',
+  secondary: '#d7b6eaff',
+  // secondary: '#EFB9A5',
   terciario: '#E3A893',
   fontColor: '#4A2C2A',
-  warning: '#D86A6A',
-  alert: '#F0C38D',
-  success: '#7FBFA0',
+
+  warning: '#C0392B',  // vermelho mais fechado e visível
+  alert: '#E67E22',    // laranja queimado forte
+  success: '#27AE60',  // verde elegante com bom contraste
+
   button: '#7D9ED9',
   accent: '#DCA2FF',
 };
+
 
 const dark = {
   background: '#212224',
