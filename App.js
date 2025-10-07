@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View } from 'react-native';
 
 import { ThemeProvider } from './src/contexts/provider';
 import Header from './src/components/Header';
@@ -28,26 +28,32 @@ function AppNavigator({ initialRoute }) {
   );
 }
 
-export default function App() {
+// Componente interno que tem acesso ao contexto
+function AppContent() {
   const [initialRoute, setInitialRoute] = useState('Login');
   const colors = useThemeColors();
   const styles = createStyles(colors);
 
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <NavigationContainer>
+          <StatusBar />
+          <Header />
+          <View style={styles.content}>
+            <AppNavigator initialRoute={initialRoute} />
+          </View>
+          <Footer />
+        </NavigationContainer>
+      </SafeAreaView>
+    </SafeAreaProvider>
+  );
+}
 
+export default function App() {
   return (
     <ThemeProvider>
-      <SafeAreaProvider>
-        <SafeAreaView style={styles.container}>
-          <NavigationContainer>
-            <StatusBar />
-            <Header />
-            <View style={styles.content}>
-              <AppNavigator initialRoute={initialRoute} />
-            </View>
-            <Footer />
-          </NavigationContainer>
-        </SafeAreaView>
-      </SafeAreaProvider>
-     </ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 }

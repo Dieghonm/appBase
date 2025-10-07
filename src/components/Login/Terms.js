@@ -5,7 +5,7 @@ import { useThemeColors } from '../../styles/globalStyles';
 import { createStyles } from '../../styles/LoginParts/Termos';
 import { useThemeContext } from '../../contexts/provider';
 
-export default function Terms({ screen }) {
+export default function Terms({ onChangeScreen }) {
   const colors = useThemeColors();
   const styles = createStyles(colors);
   const [isAgreed, setIsAgreed] = useState(false);
@@ -67,7 +67,7 @@ export default function Terms({ screen }) {
         style={[styles.createAccountButton, !isAgreed && styles.buttonDisabled]}
         disabled={!isAgreed}
         activeOpacity={0.8}
-        onPress={() => isAgreed && screen('CADASTRO')}
+        onPress={() => isAgreed && onChangeScreen('REGISTER')}
       >
         <Text style={styles.createAccountText}>Criar minha conta</Text>
       </TouchableOpacity>
@@ -76,10 +76,10 @@ export default function Terms({ screen }) {
         style={[styles.loginButton, !isAgreed && styles.buttonDisabled]}
         disabled={!isAgreed}
         activeOpacity={0.8}
-        onPress={() => isAgreed && screen('LOGIN')}
+        onPress={() => isAgreed && onChangeScreen('SIGNIN')}
       >
         <Text style={styles.loginText}>Login</Text>
       </TouchableOpacity>
     </View>
   );
-};
+}
