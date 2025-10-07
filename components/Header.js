@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useThemeColors, fontSize, fontWeight } from '../styles/globalStyles';
 
@@ -29,9 +29,17 @@ export default function Header() {
       const newMode = serverMode === 'local' ? 'render' : 'local';
       await AsyncStorage.setItem(SERVER_KEY, newMode);
       setServerMode(newMode);
-      const config = await import('../config/api');
+      
+      const url = newMode === 'local' ? 'http://localhost:8000' : 'https://backbase-s7zo.onrender.com';
+      
       console.log(`✅ Servidor alterado para: ${newMode.toUpperCase()}`);
-      console.log(`📡 URL: ${newMode === 'local' ? 'http://localhost:8000' : 'https://backbase-s7zo.onrender.com'}`);
+      console.log(`📡 URL: ${url}`);
+      
+      Alert.alert(
+        'Servidor Alterado',
+        `Agora usando: ${newMode === 'local' ? 'Local (localhost:8000)' : 'Render (Cloud)'}\n\nPróximas requisições usarão este servidor.`,
+        [{ text: 'OK' }]
+      );
     } catch (error) {
       console.error('Erro ao alternar servidor:', error);
     }
@@ -63,14 +71,16 @@ export default function Header() {
       </View>
   );
 }
+
 const createStyles = (colors) => StyleSheet.create({
   serverSelector: {
-    position: 'absolute',   // 🔥 fixa o componente
+    position: 'absolute',
     right: 20,
+    top: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    zIndex: 9999,           // garante que fique sobre outros componentes
-    elevation: 10,          // (Android) para sobreposição
+    zIndex: 9999,
+    elevation: 10,
   },
   label: {
     fontSize: fontSize.sm,
@@ -88,6 +98,12 @@ const createStyles = (colors) => StyleSheet.create({
   serverButtonActive: {
     backgroundColor: colors.button,
   },
+  indicator: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 6,
+  },
   indicatorActive: {
     backgroundColor: colors.success,
   },
@@ -98,5 +114,8 @@ const createStyles = (colors) => StyleSheet.create({
     fontSize: fontSize.xs,
     color: colors.fontColor,
     fontWeight: fontWeight.medium,
+  },
+  serverTextActive: {
+    color: colors.fontColor,
   },
 });
