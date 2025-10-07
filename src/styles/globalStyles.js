@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useFonts, Outfit_400Regular, Outfit_700Bold } from '@expo-google-fonts/outfit';
 import authService from '../services/authService';
+import { useThemeContext } from '../contexts/provider';
 
 export const useOutfitFonts = () => {
   const [fontsLoaded] = useFonts({
@@ -13,18 +14,14 @@ export const useOutfitFonts = () => {
 const pink = {
   background: '#F4CDC0',
   secondary: '#d7b6eaff',
-  // secondary: '#EFB9A5',
   terciario: '#E3A893',
   fontColor: '#4A2C2A',
-
-  warning: '#C0392B',  // vermelho mais fechado e visível
-  alert: '#E67E22',    // laranja queimado forte
-  success: '#27AE60',  // verde elegante com bom contraste
-
+  warning: '#C0392B',
+  alert: '#E67E22',
+  success: '#27AE60',
   button: '#7D9ED9',
   accent: '#DCA2FF',
 };
-
 
 const dark = {
   background: '#212224',
@@ -40,18 +37,12 @@ const dark = {
 
 export const colors = dark;
 
+// Hook atualizado que escuta o contexto
 export const useThemeColors = () => {
-  const [themeColors, setThemeColors] = useState(dark);
-
-  useEffect(() => {
-    const loadTheme = async () => {
-      const mode = await authService.obterTema();
-      setThemeColors(mode === 'pink' ? pink : dark);
-    };
-    loadTheme();
-  }, []);
-
-  return themeColors;
+  const { theme } = useThemeContext();
+  
+  // Retorna as cores baseado no tema do contexto
+  return theme === 'pink' ? pink : dark;
 };
 
 export const spacing = {

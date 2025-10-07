@@ -22,11 +22,11 @@ export default function LoginScreen() {
 
   const renderCurrentScreen = () => {
     const screenComponents = {
-      TERMS: <TermsBox onChangeScreen={handleScreenChange} />,
-      REGISTER: <Register onChangeScreen={handleScreenChange} />,
-      SIGNIN: <SignIn onChangeScreen={handleScreenChange} />,
-      CHANGEPASSWORD: <ChangePassword onChangeScreen={handleScreenChange} />,
-      PLANS: <PaymentPlans onChangeScreen={handleScreenChange} />,
+      'TERMS': <TermsBox onChangeScreen={handleScreenChange} />,
+      'REGISTER': <Register onChangeScreen={handleScreenChange} />,
+      'SIGNIN': <SignIn onChangeScreen={handleScreenChange} />,
+      'CHANGEPASSWORD': <ChangePassword onChangeScreen={handleScreenChange} />,
+      'PLANS': <PaymentPlans onChangeScreen={handleScreenChange} />,
     };
 
     return screenComponents[currentScreen] || screenComponents.TERMS;
