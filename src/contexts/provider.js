@@ -1,16 +1,29 @@
-import { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import authService from '../services/authService';
 
-const MeuContexto = createContext();
+const ThemeContext = createContext();
 
-export function MeuProvider({ children }) {
-  const valorInicial = 'Olá Mundo';
-  const [estado, setEstado] = useState(valorInicial);
-  
+export const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState('pink');
+
+  useEffect(() => {
+    const loadTheme = async () => {
+      const savedTheme = await authService.obterTema();
+      setTheme(savedTheme === 'pink' ? 'pink' : 'dark');
+    };
+    loadTheme();
+  }, []);
+
+  const changeTheme = async (mode) => {
+    await authService.salvarTema(mode);
+    setTheme(mode === 'pink' ? 'pink' : 'dark');
+  };
+
   return (
-    <MeuContexto.Provider value={{ estado, setEstado }}>
+    <ThemeContext.Provider value={{ theme, changeTheme }}>
       {children}
-    </MeuContexto.Provider>
+    </ThemeContext.Provider>
   );
-}
+};
 
-export const useMeuContexto = () => useContext(MeuContexto);
+export const useThemeContext = () => useContext(ThemeContext);

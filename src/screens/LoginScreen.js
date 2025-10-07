@@ -1,47 +1,42 @@
 import React, { useState } from 'react';
 import { View, Image } from 'react-native';
 
-import TermosBox from '../components/Login/Termos';
-// import Login from '../components/Login/Login';
-// import Cadastro from '../components/Login/Cadastro';
-// import PaymentPlans from '../components/Login/PaymentPlans';
-// import AlterarSenha from '../components/Login/AlterarSenha';
-// import { useThemeColors } from '../styles/globalStyles';
-// import { createStyles } from '../styles/LoginParts/LoginScreen';
+import { createStyles } from '../styles/LoginParts/LoginScreen';
+import { useThemeColors } from '../styles/globalStyles';
+
+import TermsBox from '../components/Login/Terms';
+import Register from '../components/Login/Register';
+import SignIn from '../components/Login/SignIn';
+import ChangePassword from '../components/Login/ChangePassword';
+import PaymentPlans from '../components/Login/PaymentPlans';
 
 export default function LoginScreen() {
-  const [screen, setScreen] = useState('TERMOS');
+  const [currentScreen, setCurrentScreen] = useState('TERMS');
   const colors = useThemeColors();
   const styles = createStyles(colors);
 
   const handleScreenChange = (newScreen) => {
-    console.log('Mudando para tela:', newScreen);
-    setScreen(newScreen);
+    console.log('Switching to screen:', newScreen);
+    setCurrentScreen(newScreen);
   };
 
   const renderCurrentScreen = () => {
     const screenComponents = {
-      'TERMOS': <TermosBox screen={handleScreenChange} />,
-      // 'CADASTRO': <Cadastro screen={handleScreenChange} />,
-      // 'LOGIN': <Login screen={handleScreenChange} />,
-      // 'ALTERARSENHA': <AlterarSenha screen={handleScreenChange} />,
-      // 'PAYMENT': <PaymentPlans screen={handleScreenChange} />
+      TERMS: <TermsBox onChangeScreen={handleScreenChange} />,
+      REGISTER: <Register onChangeScreen={handleScreenChange} />,
+      SIGNIN: <SignIn onChangeScreen={handleScreenChange} />,
+      CHANGEPASSWORD: <ChangePassword onChangeScreen={handleScreenChange} />,
+      PLANS: <PaymentPlans onChangeScreen={handleScreenChange} />,
     };
-    
-    return screenComponents[screen] || screenComponents['TERMOS'];
+
+    return screenComponents[currentScreen] || screenComponents.TERMS;
   };
 
-  // Telas que não devem mostrar o GIF
-  const screensWithoutGif = [
-    'CADASTRO', 
-    // 'PAYMENT', 
-    'ALTERARSENHA'
-  ];
+  const screensWithoutGif = ['REGISTER', 'CHANGEPASSWORD', 'PLANS'];
 
   return (
     <View style={styles.container}>
-      {/* Gif rectangle */}
-      {!screensWithoutGif.includes(screen) && (
+      {!screensWithoutGif.includes(currentScreen) && (
         <View style={styles.gifContainer}>
           <Image
             source={require('../assets/chuva.gif')}
@@ -50,7 +45,7 @@ export default function LoginScreen() {
           />
         </View>
       )}
-      
+
       {renderCurrentScreen()}
     </View>
   );

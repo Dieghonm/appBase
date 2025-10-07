@@ -1,33 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import React, { useState } from 'react';
+import { Text, TouchableOpacity, View, Image } from 'react-native';
+
 import { useThemeColors } from '../../styles/globalStyles';
 import { createStyles } from '../../styles/LoginParts/Termos';
-import authService from '../../services/authService';
+import { useThemeContext } from '../../contexts/provider';
 
-const TermosBox = ({ screen }) => {
+export default function Terms({ screen }) {
   const colors = useThemeColors();
-  const [isAgreed, setIsAgreed] = useState(false);
-  const [theme, setTheme] = useState('dark');
   const styles = createStyles(colors);
-
-  useEffect(() => {
-    const loadTheme = async () => {
-      const savedTheme = await authService.obterTema();
-      setTheme(savedTheme === 'pink' ? 'pink' : 'dark');
-    };
-    loadTheme();
-  }, []);
-
-  const changeMode = async (mode) => {
-    await authService.salvarTema(mode);
-    setTheme(mode === 'pink' ? 'pink' : 'dark');
-    window.location.reload();
-  };
+  const [isAgreed, setIsAgreed] = useState(false);
+  const { theme, changeTheme } = useThemeContext();
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background, padding: 20 }}>
@@ -49,14 +31,14 @@ const TermosBox = ({ screen }) => {
 
         <View style={styles.modeBox}>
           <TouchableOpacity
-            onPress={() => changeMode('dark')}
+            onPress={() => changeTheme('dark')}
             style={[styles.modeselect, theme === 'dark' && styles.modeselectActive]}
           >
             <Text style={styles.modeText}>DarkMode</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => changeMode('pink')}
+            onPress={() => changeTheme('pink')}
             style={[styles.modeselect, styles.modeselectAlt, theme === 'pink' && styles.modeselectActive]}
           >
             <Text style={[styles.modeText, styles.pink]}>PinkMode</Text>
@@ -101,5 +83,3 @@ const TermosBox = ({ screen }) => {
     </View>
   );
 };
-
-export default TermosBox;

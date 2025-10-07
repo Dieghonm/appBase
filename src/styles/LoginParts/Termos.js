@@ -4,7 +4,7 @@ import { borderRadius, font, fontSize, fontWeight } from '../globalStyles';
 export const createStyles = (colors) =>
   StyleSheet.create({
     logoContainer: {
-      marginTop: 110,
+      marginTop: 60,
       marginBottom: 6,
       alignItems: 'center',
     },
