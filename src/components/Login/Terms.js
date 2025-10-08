@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, TouchableOpacity, View, Image } from 'react-native';
 
 import { useThemeColors } from '../../styles/globalStyles';
-import { createStyles } from '../../styles/LoginParts/Termos';
+import { createStyles } from '../../styles/LoginParts/Terms';
 import { useThemeContext } from '../../contexts/provider';
 
 export default function Terms({ onChangeScreen }) {

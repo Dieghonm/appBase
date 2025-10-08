@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Image, TextInput, ActivityIndicator } from 'react-native';
 import { useThemeColors } from '../../styles/globalStyles';
-import { createStyles } from '../../styles/LoginParts/Cadastro';
+import { createStyles } from '../../styles/LoginParts/Register';
 
 import apiService from '../../services/api';
 import authService from '../../services/authService';
