@@ -5,7 +5,6 @@ const MODE_KEY = '@eden_map:theme';
 
 class AuthService {
   async salvarToken(token) {
-    console.log(token);
     try {
       await AsyncStorage.setItem(TOKEN_KEY, token);
       return true;

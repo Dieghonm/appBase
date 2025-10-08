@@ -1,7 +1,8 @@
 import config from '../config/api';
 import authService from './authService';
 
-const API_BASE_URL = config.API_BASE_URL;
+// const API_BASE_URL = config.API_BASE_URL;
+const API_BASE_URL = 'http://localhost:8000'
 
 class ApiService {
   async makeRequest(endpoint, options = {}) {
@@ -64,7 +65,7 @@ class ApiService {
       tag: dadosUsuario.tag || 'cliente',
       plan: dadosUsuario.plan || 'trial',
     };
-
+    
     return this.makeRequest('/cadastro', {
       method: 'POST',
       body: JSON.stringify(payload),

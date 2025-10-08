@@ -11,7 +11,8 @@ import ChangePassword from '../components/Login/ChangePassword';
 import PaymentPlans from '../components/Login/PaymentPlans';
 
 export default function LoginScreen() {
-  const [currentScreen, setCurrentScreen] = useState('TERMS');
+  // const [currentScreen, setCurrentScreen] = useState('TERMS');
+  const [currentScreen, setCurrentScreen] = useState('REGISTER');
   const colors = useThemeColors();
   const styles = createStyles(colors);
 

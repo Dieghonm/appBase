@@ -5,6 +5,8 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState('pink');
+  const [userName, setUserName] = useState('');
+  const [userTiming, setUserTiming] = useState('');
 
   useEffect(() => {
     const loadTheme = async () => {
@@ -19,8 +21,16 @@ export const ThemeProvider = ({ children }) => {
     setTheme(mode === 'pink' ? 'pink' : 'dark');
   };
 
+  const changeUserName = (name) => {
+    setUserName(name);
+  };
+
+  const changeUserTiming = (timing) => {
+    setUserTiming(timing);
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, changeTheme }}>
+    <ThemeContext.Provider value={{ theme, changeTheme, userName, changeUserName, userTiming, changeUserTiming }}>
       {children}
     </ThemeContext.Provider>
   );

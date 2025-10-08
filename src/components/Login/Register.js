@@ -1,16 +1,19 @@
 import React, { useMemo, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Image, TextInput, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { useThemeColors } from '../../styles/globalStyles';
 import { createStyles } from '../../styles/LoginParts/Register';
 
 import apiService from '../../services/api';
 import authService from '../../services/authService';
+import { useThemeContext } from '../../contexts/provider';
 
 export default function Register({ onChangeScreen }) {
+  const { userName, changeUserName } = useThemeContext();
+  const { userTiming, changeUserTiming } = useThemeContext();
   const [errors, setErrors] = useState({});
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState('Diegho');
+  const [email, setEmail] = useState('dieghonm@gmail.com');
+  const [password, setPassword] = useState('Teste123@');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -187,17 +190,11 @@ export default function Register({ onChangeScreen }) {
 
       if (response.sucesso || response.id) {
         if (authService.salvarToken(response.access_token)){
-            Alert.alert(
-              'Sucesso!',
-              'Conta criada com sucesso!',
-              [
-                {
-                  text: 'OK',
-                  // onPress: () => screen('PAYMENT')
-                }
-              ]
-            );
+          changeUserName(name)
+          changeUserTiming(15)
+          // onPress: () => screen('PAYMENT')
         }
+
       } else {
         throw new Error('Resposta inválida do servidor');
       }
@@ -208,6 +205,7 @@ export default function Register({ onChangeScreen }) {
       setIsLoading(false);
     }
   };
+
 
   return (
     <ScrollView
@@ -264,7 +262,7 @@ export default function Register({ onChangeScreen }) {
         <Text style={styles.logoTitle}>Inscreva-se</Text>
         <Text style={styles.logoSubtitle}>
           Já possui um conta?{' '}
-          <TouchableOpacity onPress={() => onChangeScreen('LOGIN')}>
+          <TouchableOpacity onPress={() => onChangeScreen('SIGNIN')}>
             <Text style={styles.linkText}>Faça login</Text>
           </TouchableOpacity>
         </Text>
@@ -275,7 +273,7 @@ export default function Register({ onChangeScreen }) {
           <TextInput
             style={styles.textInput}
             placeholder="Nome de usuário"
-            placeholderTextColor="#AAAAAA"
+            placeholderTextColor={colors.placeholder}
             value={name}
             onChangeText={handleNameChange}
             autoCapitalize="none"
@@ -287,7 +285,7 @@ export default function Register({ onChangeScreen }) {
           <TextInput
             style={styles.textInput}
             placeholder="E-mail"
-            placeholderTextColor="#696969ff"
+            placeholderTextColor={colors.placeholder}
             value={email}
             onChangeText={handleEmailChange}
             keyboardType="email-address"
@@ -300,7 +298,7 @@ export default function Register({ onChangeScreen }) {
           <TextInput
             style={[styles.textInput, styles.passwordInput]}
             placeholder="Senha"
-            placeholderTextColor="#696969ff"
+            placeholderTextColor={colors.placeholder}
             value={password}
             onChangeText={handlePasswordChange}
             secureTextEntry={!showPassword}
@@ -319,9 +317,9 @@ export default function Register({ onChangeScreen }) {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.errorText}>
-          {error}
-        </Text>
+        {error ? (
+          <Text style={styles.errorText}>{error}</Text>
+        ) : null}
 
         <TouchableOpacity 
           style={[
