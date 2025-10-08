@@ -53,8 +53,8 @@ export const createStyles = (colors) =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      width: 140,
-      height: 48,
+      width: 110,
+      height: 36,
       borderRadius: 8,
       backgroundColor: '#212224',
     },
@@ -67,14 +67,14 @@ export const createStyles = (colors) =>
     },
     modeText: {
       color: '#FFFFFF',
-      fontSize: 18,
-      marginLeft: 8,
+      fontSize: 16,
+      marginLeft: 2,
     },
     pink: {
       color: '#4A2C2A'
     },
     termsContainer: {
-      width: 310,
+      width: 290,
       marginBottom: 30,
       paddingHorizontal: 6,
     },

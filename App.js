@@ -16,7 +16,7 @@ import { useThemeColors } from './src/styles/globalStyles';
 
 const Stack = createStackNavigator();
 
-function AppNavigator({ initialRoute }) {
+function AppNavigator({ initialRoute, setInitialRoute }) {
   return (
     <Stack.Navigator
       initialRouteName={initialRoute}
@@ -39,11 +39,11 @@ function AppContent() {
       <SafeAreaView style={styles.container}>
         <NavigationContainer>
           <StatusBar />
-          <Header />
+          {initialRoute !== 'Login' && <Header />}
           <View style={styles.content}>
-            <AppNavigator initialRoute={initialRoute} />
+            <AppNavigator initialRoute={initialRoute} setInitialRoute={setInitialRoute} />
           </View>
-          <Footer />
+          {initialRoute !== 'Login' && <Footer />}
         </NavigationContainer>
       </SafeAreaView>
     </SafeAreaProvider>
