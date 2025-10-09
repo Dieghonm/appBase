@@ -16,8 +16,8 @@ import { useThemeContext } from '../../contexts/provider';
 export default function SignIn({ onChangeScreen }) {
   const { userName, changeUserName } = useThemeContext();
   const { userTiming, changeUserTiming } = useThemeContext();
-  const [email, setEmail] = useState('front3');
-  const [password, setPassword] = useState('Teste123@');
+  const [email, setEmail] = useState(''); //front3
+  const [password, setPassword] = useState(''); //Teste123@
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -181,8 +181,8 @@ export default function SignIn({ onChangeScreen }) {
           <Image
             source={
               showPassword
-                ? require('../../assets/eye.png')
-                : require('../../assets/eye-off.png')
+                ? require('../../assets/icones/eye.png')
+                : require('../../assets/icones/eye-off.png')
             }
             tintColor={colors.fontColor}
             style={styles.eyeIconImage}

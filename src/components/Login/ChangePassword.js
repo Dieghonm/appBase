@@ -122,7 +122,7 @@ export default function ChangePassword() {
 //             activeOpacity={0.7}
 //           >
 //             <Image
-//               source={mostrarSenha ? require('../../assets/eye.png') : require('../../assets/eye-off.png')}
+//               source={mostrarSenha ? require('../../assets/icones/eye.png') : require('../../assets/icones/eye-off.png')}
 //               style={styles.eyeIconImage}
               // tintColor={colors.fontColor}
 //             />

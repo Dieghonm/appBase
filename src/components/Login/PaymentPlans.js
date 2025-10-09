@@ -47,7 +47,7 @@ export default function PaymentPlans() {
 //       <View style={styles.benefitsContainer}>
 //         <View style={styles.benefitItem}>
 //           <Image
-//             source={require('../../assets/Check.png')}
+//             source={require('../../assets/icones/Check.png')}
 //             style={styles.checkIcon}
 //           />
 //           <Text style={styles.benefitText}>
@@ -57,7 +57,7 @@ export default function PaymentPlans() {
         
 //         <View style={styles.benefitItem}>
 //           <Image
-//             source={require('../../assets/Check.png')}
+//             source={require('../../assets/icones/Check.png')}
 //             style={styles.checkIcon}
 //           />
 //           <Text style={styles.benefitText}>
@@ -67,7 +67,7 @@ export default function PaymentPlans() {
         
 //         <View style={styles.benefitItem}>
 //           <Image
-//             source={require('../../assets/Check.png')}
+//             source={require('../../assets/icones/Check.png')}
 //             style={styles.checkIcon}
 //           />
 //           <Text style={styles.benefitText}>

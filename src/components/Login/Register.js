@@ -216,7 +216,7 @@ export default function Register({ onChangeScreen }) {
         <Text style={styles.rulesTitle}>Regras usuário e senha</Text>
 
         <Image
-          source={require('../../assets/allert.png')}
+          source={require('../../assets/icones/allert.png')}
           style={styles.alertIcon}
           resizeMode="contain"
         />
@@ -310,7 +310,7 @@ export default function Register({ onChangeScreen }) {
             disabled={isLoading}
           >
             <Image
-              source={showPassword ? require('../../assets/eye.png') : require('../../assets/eye-off.png')}
+              source={showPassword ? require('../../assets/icones/eye.png') : require('../../assets/icones/eye-off.png')}
               style={styles.eyeIconImage}
               tintColor={colors.fontColor}
               resizeMode="contain"
