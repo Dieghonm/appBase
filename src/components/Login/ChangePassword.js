@@ -124,6 +124,7 @@ export default function ChangePassword() {
 //             <Image
 //               source={mostrarSenha ? require('../../assets/eye.png') : require('../../assets/eye-off.png')}
 //               style={styles.eyeIconImage}
+              // tintColor={colors.fontColor}
 //             />
 //           </TouchableOpacity>
 //         </View>

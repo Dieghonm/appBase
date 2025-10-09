@@ -12,7 +12,7 @@ import PaymentPlans from '../components/Login/PaymentPlans';
 
 export default function LoginScreen() {
   // const [currentScreen, setCurrentScreen] = useState('TERMS');
-  const [currentScreen, setCurrentScreen] = useState('REGISTER');
+  const [currentScreen, setCurrentScreen] = useState('SIGNIN');
   const colors = useThemeColors();
   const styles = createStyles(colors);
 

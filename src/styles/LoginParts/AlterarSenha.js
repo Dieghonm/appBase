@@ -113,7 +113,6 @@ export const createStyles = (colors) => StyleSheet.create({
   eyeIconImage: {
     width: 15,
     height: 12,
-    tintColor: colors.fontColor,
   },
   button: {
     width: 218,

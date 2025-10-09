@@ -11,9 +11,9 @@ export default function Register({ onChangeScreen }) {
   const { userName, changeUserName } = useThemeContext();
   const { userTiming, changeUserTiming } = useThemeContext();
   const [errors, setErrors] = useState({});
-  const [name, setName] = useState('Diegho');
-  const [email, setEmail] = useState('dieghonm@gmail.com');
-  const [password, setPassword] = useState('Teste123@');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -312,6 +312,7 @@ export default function Register({ onChangeScreen }) {
             <Image
               source={showPassword ? require('../../assets/eye.png') : require('../../assets/eye-off.png')}
               style={styles.eyeIconImage}
+              tintColor={colors.fontColor}
               resizeMode="contain"
             />
           </TouchableOpacity>

@@ -105,7 +105,6 @@ export const createStyles = (colors) => StyleSheet.create({
   eyeIconImage: {
     width: 15,
     height: 15,
-    tintColor: colors.fontColor,
   },
   loginButtonForm: {
     width: 218,
